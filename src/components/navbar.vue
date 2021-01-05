@@ -10,13 +10,13 @@
                 <i class="fa fa-times" id="sign-two"></i>
             </label>
             <ul>
-                <li v-on:click="changePage('/characters')">
+                <li v-on:click="changePage('Characters')">
                     Characters
                 </li>
-                <li v-on:click="changePage('/locations')">
+                <li v-on:click="changePage('Locations')">
                     Locations
                 </li>
-                <li v-on:click="changePage('/episodes')">
+                <li v-on:click="changePage('Episodes')">
                     Episodes
                 </li>
             </ul>
@@ -26,6 +26,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { PreventConsole } from '@/console';
 
 @Component({
   components: {},
@@ -36,20 +37,26 @@ export default class Navbar extends Vue {
 
 
     created() {
-        if (screen.width <= 800) {
+        if (window.outerWidth <= 800) {
             window.addEventListener('scroll', this.scrollHandler)
         }
     }   
 
     changePage(page: string) {
-        if (screen.width <= 800) {
+        if (window.outerWidth <= 800) {
             let element = <HTMLInputElement> document.getElementById("res-menu");
             if (element.checked) {
                 element.checked = false;
+                if (this.$route.name != page) {
+                    this.$router.push("/"+ page.toLowerCase());
+                }
             }
         }
-
-        this.$router.push(page);
+        else{
+            if (this.$route.name != page) {
+                    this.$router.push("/"+ page.toLowerCase());
+                }
+        }
     }
 
     scrollHandler() {
@@ -108,7 +115,7 @@ label #sign-one, label #sign-two{
     display: none;
 }
 
-@media only screen and (max-width: 800px) {
+@media (max-width: 800px) {
     label #sign-one{
         display: block;
     }

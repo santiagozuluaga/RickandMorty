@@ -13,8 +13,9 @@
 
 <script lang="ts">
 import axios from 'axios';
-import Card from "@/components/card.vue";
+import Card from '@/components/card.vue';
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import { PreventConsole } from '@/console';
 
 @Component({
   components: {
@@ -40,7 +41,7 @@ export default class Container extends Vue {
             this.data = response.data.results;
             this.pages = response.data.info.pages;
             this.isLoading = false;
-            console.log(this.data)
+            PreventConsole(this.data, this.pages);
         })
         .catch((err: Error) => {
             this.isLoading = false;
